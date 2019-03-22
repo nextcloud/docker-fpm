@@ -104,7 +104,7 @@ RUN { \
 VOLUME ${NEXTCLOUD_BASE_DIR}
 
 
-ENV NEXTCLOUD_VERSION 16.0.0alpha1
+ENV NEXTCLOUD_VERSION 16.0.0beta1
 
 RUN set -ex; \
     fetchDeps=" \

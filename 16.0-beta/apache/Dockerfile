@@ -1,5 +1,5 @@
 # DO NOT EDIT: created by update.sh from Dockerfile-debian.template
-FROM php:7.2-fpm-stretch
+FROM php:7.2-apache-stretch
 
 ENV NEXTCLOUD_BASE_DIR /var/www/html
 
@@ -103,8 +103,16 @@ RUN { \
 
 VOLUME ${NEXTCLOUD_BASE_DIR}
 
+RUN a2enmod rewrite remoteip ;\
+    {\
+     echo RemoteIPHeader X-Real-IP ;\
+     echo RemoteIPTrustedProxy 10.0.0.0/8 ;\
+     echo RemoteIPTrustedProxy 172.16.0.0/12 ;\
+     echo RemoteIPTrustedProxy 192.168.0.0/16 ;\
+    } > /etc/apache2/conf-available/remoteip.conf;\
+    a2enconf remoteip
 
-ENV NEXTCLOUD_VERSION 16.0.0alpha1
+ENV NEXTCLOUD_VERSION 16.0.0beta1
 
 RUN set -ex; \
     fetchDeps=" \
@@ -137,4 +145,4 @@ COPY *.sh upgrade.exclude /
 COPY config/* /usr/src/nextcloud/config/
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["php-fpm"]
+CMD ["apache2-foreground"]
