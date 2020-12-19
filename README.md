@@ -236,7 +236,7 @@ services:
       - MYSQL_USER=nextcloud
 
   app:
-    image: nextcloud
+    image: nextcloud:unprivileged
     ports:
       - 8080:80
     links:
@@ -282,7 +282,7 @@ services:
       - MYSQL_USER=nextcloud
 
   app:
-    image: nextcloud:fpm
+    image: nextcloud:fpm-unprivileged
     links:
       - db
     restart: always
@@ -295,7 +295,7 @@ services:
       - MYSQL_HOST=db
 
   web:
-    image: nginx
+    image: nginxinc/nginx-unprivileged:alpine
     ports:
       - 8080:80
     links:
